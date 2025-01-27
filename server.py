@@ -28,6 +28,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             tour_date TEXT NOT NULL,
+            num_people INTEGER NOT NULL,
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
         """)
@@ -53,17 +54,20 @@ def login():
         password = request.form['password']
 
         conn = sqlite3.connect('data.db')
+        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
         user = cursor.fetchone()
         conn.close()
 
-        if user and check_password_hash(user['password'], password):
+        # Compare plain-text password
+        if user and user['password'] == password:
             session['user_id'] = user['id']
             return redirect('/')
         return "Invalid email or password.", 401
 
     return render_template('login.html')
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -77,9 +81,7 @@ def register():
         name = request.form['name']
         phone = request.form['phone']
         date_of_birth = request.form['date_of_birth']
-        password = request.form['password']
-
-        hashed_password = generate_password_hash(password)
+        password = request.form['password']  # Store the password directly
 
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
@@ -87,7 +89,7 @@ def register():
             cursor.execute('''
                 INSERT INTO users (email, name, phone, date_of_birth, password)
                 VALUES (?, ?, ?, ?, ?)
-            ''', (email, name, phone, date_of_birth, hashed_password))
+            ''', (email, name, phone, date_of_birth, password))
             conn.commit()
             conn.close()
             return redirect('/login')
@@ -97,20 +99,26 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/book-tour', methods=['POST'])
+
+@app.route('/book_tour', methods=['GET', 'POST'])
 def book_tour():
-    if 'user_id' not in session:
-        return jsonify({"message": "Unauthorized"}), 401
+    if request.method == 'POST':
+        if 'user_id' not in session:
+            return redirect('/login')  # Redirect to login if not logged in
 
-    data = request.json
-    tour_date = data.get('tour_date')
-    user_id = session['user_id']
+        tour_date = request.form['tour_date']
+        num_people = request.form['num_people']
+        user_id = session['user_id']
 
-    with sqlite3.connect("data.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO Tours (user_id, tour_date) VALUES (?, ?)", (user_id, tour_date))
-        conn.commit()
-        return jsonify({"message": "Tour booked successfully"}), 201
+
+        with sqlite3.connect("data.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO tours (user_id, tour_date, num_people) VALUES (?, ?, ?)", (user_id, tour_date, num_people))
+            conn.commit()
+            return redirect('/')  # Redirect to the home page after booking
+
+    return render_template('book_tour.html')
+
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
