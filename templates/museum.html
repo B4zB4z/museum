@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum of Art</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-image: url('/static/images/marble-texture.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        header h1 {
+            font-size: 3rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .hero {
+            margin-top: 20px;
+        }
+
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .exhibits, .feedback {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .exhibit, .feedback-form {
+            flex: 1 1 300px;
+            margin: 10px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><a href="#" style="color: white; text-decoration: none;">Museum of Art</a></h1>
+</header>
+
+<nav>
+    <a href="#exhibits">Exhibits</a>
+    <a href="#book">Book Tours</a>
+    <a href="#feedback">Feedback</a>
+    <a href="#contact">Contact</a>
+    <a href="/login">Login</a>
+</nav>
+
+<div class="hero">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/static/images/carousel_1.jpg" class="d-block w-100" alt="Art 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/carousel_2.jpg" class="d-block w-100" alt="Art 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/carousel_3.jpg" class="d-block w-100" alt="Art 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<section id="exhibits">
+    <h2>Current Exhibits</h2>
+    <div class="exhibits">
+        <div class="exhibit">
+            <h3>Modern Marvels</h3>
+            <p>Explore contemporary art pieces that challenge the imagination.</p>
+        </div>
+        <div class="exhibit">
+            <h3>Classical Heritage</h3>
+            <p>A journey through timeless classical artworks.</p>
+        </div>
+    </div>
+</section>
+
+<section id="book">
+    <h2>Book a Tour</h2>
+    <p>Select a date to book a guided tour.</p>
+    <form>
+        <label for="tour-date">Choose a date:</label>
+        <input type="date" id="tour-date" name="tour-date">
+        <button type="submit">Book Now</button>
+    </form>
+</section>
+
+<section id="feedback">
+    <h2>Visitor Feedback</h2>
+    <div class="feedback">
+        <div class="feedback-form">
+            <h3>We value your thoughts!</h3>
+            <form>
+                <label for="name">Your Name:</label><br>
+                <input type="text" id="name" name="name"><br><br>
+                <label for="comments">Comments:</label><br>
+                <textarea id="comments" name="comments" rows="4"></textarea><br><br>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Contact Us</h2>
+    <p>Address: 123 Museum Ave, Art City</p>
+    <p>Phone: (123) 456-7890</p>
+    <p>Email: info@museumofart.com</p>
+</section>
+
+<footer>
+    <p>&copy; 2025 Museum of Art. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
