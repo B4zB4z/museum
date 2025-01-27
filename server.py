@@ -45,7 +45,8 @@ def init_db():
 
 @app.route('/')
 def index():
-    return render_template('museum.html')  # Render the main museum page
+    logged_in = 'user_id' in session
+    return render_template('museum.html', logged_in=logged_in)  # Render the main museum page
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -72,7 +73,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
-    return redirect('/login')
+    return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -102,6 +103,7 @@ def register():
 
 @app.route('/book_tour', methods=['GET', 'POST'])
 def book_tour():
+    logged_in = 'user_id' in session
     if request.method == 'POST':
         if 'user_id' not in session:
             return redirect('/login')  # Redirect to login if not logged in
@@ -117,23 +119,29 @@ def book_tour():
             conn.commit()
             return redirect('/')  # Redirect to the home page after booking
 
-    return render_template('book_tour.html')
+    return render_template('book_tour.html', logged_in=logged_in)
 
 
-@app.route('/feedback', methods=['POST'])
+@app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
-    if 'user_id' not in session:
-        return jsonify({"message": "Unauthorized"}), 401
+    logged_in = 'user_id' in session
+    if request.method == 'POST':
+        if 'user_id' not in session:
+            return redirect('/login')
 
-    data = request.json
-    feedback_text = data.get('feedback')
-    user_id = session['user_id']
+        feedback_text = request.form.get('feedback')
+        user_id = session['user_id']
 
-    with sqlite3.connect("data.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO Feedback (user_id, feedback_text) VALUES (?, ?)", (user_id, feedback_text))
-        conn.commit()
-        return jsonify({"message": "Feedback submitted successfully"}), 201
+        with sqlite3.connect("data.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO Feedback (user_id, feedback_text)
+                VALUES (?, ?)
+            """, (user_id, feedback_text))
+            conn.commit()
+
+        return "Feedback submitted successfully", 201
+    return render_template('feedback.html', logged_in=logged_in)
 
 if __name__ == '__main__':
     init_db()  # Initialize the database and create tables if they don't exist

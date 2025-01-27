@@ -1,111 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Tour</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #1c1c1c;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 30px;
-            width: 400px;
-            text-align: center;
-        }
-        h1 {
-            color: #ffcc00;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            text-align: left;
-            font-size: 14px;
-            color: #ffcc00;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 16px;
-            border: 1px solid #ffcc00;
-            border-radius: 5px;
-            background-color: #2b2b2b;
-            color: #ffffff;
-        }
-        input::placeholder {
-            color: #aaaaaa;
-        }
-        button {
-            background-color: #ffcc00;
-            color: #1c1c1c;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #e6b800;
-        }
-        .back-link {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .back-link a {
-            color: #ffcc00;
-            text-decoration: none;
-        }
-        .back-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
-    <script>
-        // Restrict the date picker to prevent past dates
-        document.addEventListener("DOMContentLoaded", function() {
-            const today = new Date().toISOString().split("T")[0];
-            document.getElementById("tour_date").setAttribute("min", today);
-        });
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h1>Book a Tour</h1>
-        <form method="POST" action="/book_tour">
-            <label for="tour_date">Select a Tour Date:</label>
-            <input type="date" id="tour_date" name="tour_date" required>
+{% extends "base.html" %}
 
-            <label for="num_people">Number of People Attending:</label>
-            <select id="num_people" name="num_people" required>
-                <option value="" disabled selected>Select number</option>
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-                <option value="3">3 People</option>
-                <option value="4">4 People</option>
-                <option value="5">5 People</option>
-                <option value="6">6 People</option>
-                <option value="7">7 People</option>
-                <option value="8">8 People</option>
-                <option value="9">9 People</option>
-                <option value="10">10+ People</option>
-            </select>
+{% block title %}Book a Tour{% endblock %}
 
-            <button type="submit">Book Tour</button>
-        </form>
-        <div class="back-link">
-            <a href="/">Back to Home</a>
+{% block content %}
+<script>
+    // Restrict the date picker to prevent past dates
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("tour_date").setAttribute("min", today);
+    });
+</script>
+<div class="container">
+    <h2>Book a Tour</h2>
+    <form action="/book_tour" method="POST">
+        <div class="mb-3">
+            <label for="tour_date" class="form-label">Select Date:</label>
+            <input type="date" id="tour_date" name="tour_date" class="form-control" required>
         </div>
-    </div>
-</body>
-</html>
+        <div class="mb-3">
+            <label for="num_people" class="form-label">Number of People:</label>
+            <input type="number" id="num_people" name="num_people" class="form-control" min="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </form>
+</div>
+{% endblock %}
