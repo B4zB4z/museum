@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Contact Us</h2>
+    
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Address</h4>
+            <p>123 Panepistimiou<br>Athens City, 12345</p>
+
+            <h4>Phone</h4>
+            <p>(+30) 210 4565137</p>
+
+            <h4>Email</h4>
+            <p>info@museum.com</p>
+
+            <h4>Working Hours</h4>
+            <p>Every weekday from 9 AM to 8 PM<br>Every weekend from 9 AM to 5 PM</p>
+        </div>
+
+        <div class="col-md-6">
+            <p>Visit us at our location below.</p>
+            <h4>Our Location</h4>
+            <div style="border-radius: 10px; overflow: hidden;">
+                <iframe 
+                    width="100%" 
+                    height="400" 
+                    style="border:0; border-radius: 10px;" 
+                    loading="lazy" 
+                    allowfullscreen
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=23.730635046958923%2C37.97824459981249%2C23.73597264289856%2C37.98163998494394&amp;layer=mapnik">
+                </iframe>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -38,6 +38,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             feedback_text TEXT NOT NULL,
+            submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
         """)
@@ -139,9 +140,23 @@ def feedback():
                 VALUES (?, ?)
             """, (user_id, feedback_text))
             conn.commit()
+            
 
-        return "Feedback submitted successfully", 201
-    return render_template('feedback.html', logged_in=logged_in)
+    with sqlite3.connect("data.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT users.name, feedback_text, submitted_at 
+            FROM Feedback 
+            JOIN users ON Feedback.user_id = users.id 
+            ORDER BY submitted_at DESC
+        """)
+        feedback_entries = cursor.fetchall()
+    return render_template('feedback.html', logged_in=logged_in,feedback_entries=feedback_entries)
+
+@app.route('/contact')
+def contact():
+    logged_in = 'user_id' in session  # Check if user is logged in
+    return render_template('contact.html', logged_in=logged_in)
 
 if __name__ == '__main__':
     init_db()  # Initialize the database and create tables if they don't exist

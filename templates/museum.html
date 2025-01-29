@@ -27,17 +27,31 @@
     </div>
 </div>
 
-<section id="exhibits">
-    <h2>Current Exhibits</h2>
-    <div class="exhibits">
-        <div class="exhibit">
-            <h3>Modern Marvels</h3>
-            <p>Explore contemporary art pieces that challenge the imagination.</p>
+<section id="exhibits" class="container my-5">
+    <h2 class="text-center mb-4">Current Exhibits</h2>
+    <div class="row justify-content-center">
+        <!-- Modern Marvels Exhibit -->
+        <div class="col-md-5">
+            <div class="card shadow-lg w-100 d-flex flex-column">
+                <img src="/static/images/modern.jpg" class="card-img-top" alt="Modern Marvels">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Modern Marvels</h3>
+                    <p class="card-text">Explore contemporary art pieces that challenge the imagination.</p>
+                </div>
+            </div>
         </div>
-        <div class="exhibit">
-            <h3>Classical Heritage</h3>
-            <p>A journey through timeless classical artworks.</p>
+
+        <!-- Classical Heritage Exhibit -->
+        <div class="col-md-5">
+            <div class="card shadow-lg w-100 d-flex flex-column">
+                <img src="/static/images/classical.jpg" class="card-img-top" alt="Classical Heritage">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Classical Heritage</h3>
+                    <p class="card-text">A journey through timeless classical artworks.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
 {% endblock %}

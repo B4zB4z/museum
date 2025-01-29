@@ -5,7 +5,26 @@
 {% block content %}
 <div class="container">
     <h2>Visitor Feedback</h2>
-    <form action="/feedback" method="POST">
+
+    <!-- Display previous feedback -->
+    <div class="previous-feedback">
+        <h4>What others are saying:</h4>
+        {% if feedback_entries %}
+            <ul class="list-group">
+                {% for feedback in feedback_entries %}
+                    <li class="list-group-item">
+                        <strong>{{ feedback[0] }}</strong> ({{ feedback[2] }}):<br>
+                        {{ feedback[1] }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No feedback yet. Be the first to share your thoughts!</p>
+        {% endif %}
+    </div>
+
+    <!-- Feedback Form -->
+    <form action="/feedback" method="POST" class="mt-4">
         <div class="mb-3">
             <label for="feedback" class="form-label">Your Feedback:</label>
             <textarea id="feedback" name="feedback" rows="4" class="form-control" required></textarea>
